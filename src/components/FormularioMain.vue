@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import TemporizadorMain from './TemporizadorMain.vue';
 import { useStore } from 'vuex';
 import { key } from '@/store';
@@ -43,29 +43,30 @@ import { key } from '@/store';
 export default defineComponent({
   name: "FormularioMain",
   emits: ['aoSalvarTarefa'],
-  components: {
-    TemporizadorMain
-  },
-  data () {
-    return {
-      descricao: '',
-      idProjeto: ''
+  components: { TemporizadorMain },
+  setup(props,/*{emit}*/context) {
+    const store = useStore(key);
+    const projetos = computed(() => store.state.projeto.projetos);
+    const descricao = ref("");
+    const idProjeto = ref("");
+
+    const  finalizarTarefa = (tempoDecorrido : number) : void => {
+      /*emit*/ context.emit('aoSalvarTarefa',{
+          duracaoEmSegundos: tempoDecorrido,
+          descricao: descricao.value,
+          projeto: projetos.value.find(proj => proj.id == idProjeto.value)
+        }
+      );
+
+      descricao.value = '';
+      idProjeto.value = '';
     }
-  },
-  methods: {
-    finalizarTarefa (tempoDecorrido: number) : void {
-      this.$emit('aoSalvarTarefa', {
-        duracaoEmSegundos: tempoDecorrido,
-        descricao: this.descricao,
-        projeto: this.projetos.find((proj: { id: string; }) => proj.id == this.idProjeto)
-      });
-      this.descricao = ''
-    }
-  },
-  setup () {
-    const store = useStore(key)
+
     return {
-      projetos: computed(() => store.state.projeto.projetos)
+      descricao,
+      idProjeto,
+      projetos,
+      finalizarTarefa
     }
   }
 });

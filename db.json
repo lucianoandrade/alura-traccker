@@ -6,7 +6,11 @@
     },
     {
       "id": 5,
-      "nome": "Alura Traccker - 789"
+      "nome": "Alura Traccker - 782"
+    },
+    {
+      "id": 6,
+      "nome": "setup project"
     }
   ],
   "tarefas": [
@@ -36,6 +40,15 @@
         "nome": "Alura Traccker - 789"
       },
       "id": 3
+    },
+    {
+      "duracaoEmSegundos": 4,
+      "descricao": "me enganei",
+      "projeto": {
+        "id": 6,
+        "nome": "setup project"
+      },
+      "id": 4
     }
   ]
 }
