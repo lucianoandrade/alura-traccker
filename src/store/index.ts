@@ -1,41 +1,38 @@
 import { createStore, Store, useStore as vuexUseStore} from "vuex"; //vuexUseStore é o nome(variavel que demos pra useStore, para não conflitar com o useStore que criamos)
 import { InjectionKey } from "vue";
-import { ADICIONA_PROJETO, ALTERA_PROJETO, DEFINIR_PROJETOS, EXCLUIR_PROJETO, NOTIFICAR } from "./tipo-mutacoes";
-import { ALTERAR_PROJETO, CADASTRAR_PROJETO, OBTER_PROJETOS, REMOVER_PROJETO } from "./tipo-acoes";
-import IProjeto from "@/interfaces/IProjeto";
+import { 
+  ADICIONA_TAREFA, 
+  ALTERA_TAREFA, 
+  DEFINIR_TAREFAS, 
+  NOTIFICAR 
+} from "./tipo-mutacoes";
+import { 
+  ALTERAR_TAREFA, 
+  CADASTRAR_TAREFA,
+  OBTER_TAREFAS,
+} from "./tipo-acoes";
 import { INotificacao } from "@/interfaces/INotificacao";
 import http from "@/http";
+import ITarefa from "@/interfaces/ITarefa";
+import { EstadoProjeto, projeto } from "./modulos/projetos";
 
-interface Estado {
-  projetos: IProjeto[],
-  notificacoes: INotificacao[]
+export interface Estado {
+  notificacoes: INotificacao[],
+  tarefas: ITarefa[],
+  projeto: EstadoProjeto
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol();
 
 export const store = createStore<Estado>({
   state: {
-    projetos: [],
-    notificacoes: []
+    notificacoes: [],
+    tarefas: [],
+    projeto: {
+      projetos: []
+    }
   },
   mutations: {
-    [ADICIONA_PROJETO](state, nomeDoProjeto: string) {
-      const projeto = {
-        id: new Date().toISOString(),
-        nome: nomeDoProjeto
-      } as IProjeto;
-      state.projetos.push(projeto);
-    },
-    [ALTERA_PROJETO] (state, projeto: IProjeto) {
-      const index = state.projetos.findIndex(proj => proj.id == projeto.id)
-      state.projetos[index] = projeto
-    },
-    [EXCLUIR_PROJETO] (state, id: string) {
-      state.projetos = state.projetos.filter(proj => proj.id != id)
-    },
-    [DEFINIR_PROJETOS](state, projetos: IProjeto[]) {
-      state.projetos = projetos
-    },
     [NOTIFICAR] (state, novaNotificacao: INotificacao) {
       novaNotificacao.id = new Date().getTime()
       state.notificacoes.push(novaNotificacao)
@@ -43,24 +40,31 @@ export const store = createStore<Estado>({
       setTimeout(() => {
           state.notificacoes = state.notificacoes.filter(notificacao => notificacao.id != novaNotificacao.id)
       }, 3000)
+    },
+    [DEFINIR_TAREFAS](state, tarefas: ITarefa[]) {
+      state.tarefas = tarefas
+    },
+    [ADICIONA_TAREFA](state, tarefa: ITarefa) {
+      state.tarefas.push(tarefa)
+    },
+    [ALTERA_TAREFA](state, tarefa: ITarefa) {
+      const index = state.tarefas.findIndex(item => item.id == tarefa.id)
+      state.tarefas[index] = tarefa
     }
   },
   actions: {
-    [OBTER_PROJETOS] ({ commit }) {
-        http.get('projetos').then(res => commit(DEFINIR_PROJETOS, res.data))
+    [OBTER_TAREFAS] ({ commit }) {
+      http.get('tarefas').then(res => commit(DEFINIR_TAREFAS, res.data))
     },
-    [CADASTRAR_PROJETO] (contexto, nomeDoProjeto: string) {
-      return http.post('projetos', {
-          nome: nomeDoProjeto
-      })
+    [CADASTRAR_TAREFA] ({ commit }, tarefa: ITarefa) {
+      return http.post('/tarefas', tarefa).then(res => commit(ADICIONA_TAREFA, res.data))
     },
-    [ALTERAR_PROJETO] (contexto, projeto: IProjeto) {
-      return http.put(`/projetos/${projeto.id}`, projeto)
-    },
-    [REMOVER_PROJETO] ({ commit }  , id: string) {
-      return http.delete(`/projetos/${id}`)
-          .then(() => commit(EXCLUIR_PROJETO, id))
+    [ALTERAR_TAREFA] ({ commit }, tarefa: ITarefa) {
+      return http.put(`/tarefas/${tarefa.id}`, tarefa).then(() => commit(ALTERA_TAREFA, tarefa))
     }
+  },
+  modules: {
+    projeto
   }
 });
 

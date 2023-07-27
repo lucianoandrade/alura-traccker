@@ -1,12 +1,41 @@
 {
   "projetos": [
     {
-      "nome": "Vuex",
-      "id": 4
+      "id": 1,
+      "nome": "Vuex"
     },
     {
-      "nome": "Criar Dashboard",
-      "id": 5
+      "id": 5,
+      "nome": "Alura Traccker - 789"
+    }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "Editando store de tarefas",
+      "projeto": {
+        "id": 1,
+        "nome": "Vuex"
+      }
+    },
+    {
+      "duracaoEmSegundos": 5,
+      "descricao": "teste",
+      "projeto": {
+        "id": 1,
+        "nome": "Vuex"
+      },
+      "id": 2
+    },
+    {
+      "duracaoEmSegundos": 2,
+      "descricao": "Esquece",
+      "projeto": {
+        "id": 5,
+        "nome": "Alura Traccker - 789"
+      },
+      "id": 3
     }
   ]
 }

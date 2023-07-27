@@ -23,7 +23,7 @@ import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from "@/store/tipo-acoes";
 // import { notificacaoMixin } from "@/mixins/notificar";
 
 export default defineComponent({
-    name: "FormularioMain",
+    name: "FormularioView",
     props: {
         id: {
             type: String
@@ -32,7 +32,7 @@ export default defineComponent({
     // mixins: [notificacaoMixin],
     mounted () {
         if(this.id) {
-            const projeto = this.store.state.projetos.find(proj => proj.id == this.id)
+            const projeto = this.store.state.projeto.projetos.find(projeto => projeto.id == this.id)
             this.nomeDoProjeto = projeto?.nome || ''
         }
     },
