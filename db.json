@@ -31,33 +31,6 @@
         "nome": "Vuex"
       },
       "id": 2
-    },
-    {
-      "duracaoEmSegundos": 2,
-      "descricao": "Esquece",
-      "projeto": {
-        "id": 5,
-        "nome": "Alura Traccker - 789"
-      },
-      "id": 3
-    },
-    {
-      "duracaoEmSegundos": 4,
-      "descricao": "me enganei",
-      "projeto": {
-        "id": 6,
-        "nome": "setup project"
-      },
-      "id": 4
-    },
-    {
-      "duracaoEmSegundos": 2,
-      "descricao": "teste 2",
-      "projeto": {
-        "id": 6,
-        "nome": "setup project"
-      },
-      "id": 5
     }
   ]
 }

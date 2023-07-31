@@ -15,8 +15,8 @@
       </p>
     </div>
     <TarefaMain 
-      v-for="(tarefa, index) in tarefas" 
-      :key="index" 
+      v-for="tarefa in tarefas" 
+      :key="tarefa.id" 
       :tarefa="tarefa"
       @ao-tarefa-clicada="selecionarTarefa"
     />

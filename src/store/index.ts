@@ -4,12 +4,14 @@ import {
   ADICIONA_TAREFA, 
   ALTERA_TAREFA, 
   DEFINIR_TAREFAS, 
+  EXCLUIR_TAREFA, 
   NOTIFICAR 
 } from "./tipo-mutacoes";
 import { 
   ALTERAR_TAREFA, 
   CADASTRAR_TAREFA,
   OBTER_TAREFAS,
+  REMOVER_TAREFA,
 } from "./tipo-acoes";
 import { INotificacao } from "@/interfaces/INotificacao";
 import http from "@/http";
@@ -50,7 +52,10 @@ export const store = createStore<Estado>({
     [ALTERA_TAREFA](state, tarefa: ITarefa) {
       const index = state.tarefas.findIndex(item => item.id == tarefa.id)
       state.tarefas[index] = tarefa
-    }
+    },
+    [EXCLUIR_TAREFA](state, id: number) {
+      state.tarefas = state.tarefas.filter(tarefa => tarefa.id != id)
+    },
   },
   actions: {
     [OBTER_TAREFAS]({ commit }, filtro: string) {
@@ -66,7 +71,11 @@ export const store = createStore<Estado>({
     },
     [ALTERAR_TAREFA] ({ commit }, tarefa: ITarefa) {
       return http.put(`/tarefas/${tarefa.id}`, tarefa).then(() => commit(ALTERA_TAREFA, tarefa))
-    }
+    },
+    [REMOVER_TAREFA] ({ commit }  , tarefa: ITarefa) {
+      return http.delete(`/tarefas/${tarefa.id}`)
+          .then(() => commit(EXCLUIR_TAREFA, tarefa.id))
+    },
   },
   modules: {
     projeto

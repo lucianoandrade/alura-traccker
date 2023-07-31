@@ -1,6 +1,6 @@
 <template>
     <section>
-        <router-link to="/projetos/novo" class="button">
+        <router-link to="/projetos/novo" class="button new-project">
             <span class="icon is-small">
                 <i class="fas fa-plus"></i>
             </span>
@@ -59,3 +59,12 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+    .new-project{
+        margin-bottom: 12px;
+    }
+    .table {
+        border-radius: 8px;
+    }
+</style>

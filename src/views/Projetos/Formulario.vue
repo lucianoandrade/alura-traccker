@@ -101,3 +101,9 @@ export default defineComponent({
     }
 })
 </script>
+
+<style scoped>
+    .label {
+        color: inherit;
+    }
+</style>

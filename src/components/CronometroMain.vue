@@ -26,6 +26,6 @@ export default defineComponent({
 
 <style scoped>
 .display {
-  color: var(--texto-primario);
+  color: inherit;
 }
 </style>
